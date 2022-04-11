@@ -1,7 +1,7 @@
 const express = require('express')
 const { graphql } = require('@octokit/graphql')
 const graphqlAuth = graphql.defaults({
-  headers: { authorization: 'token ' + process.env.GITHUB_PERSONAL_ACCESS_TOKEN },
+    headers: { authorization: 'token ' + process.env.GITHUB_PERSONAL_ACCESS_TOKEN },
 })
 
 module.exports = express
@@ -10,8 +10,8 @@ module.exports = express
   .get('/', function (req, res) {
     // Get the repository information from my GitHub account
     graphqlAuth(`{
-      user(login: "ju5tu5") {
-        repositories(first: 100, orderBy: {field: UPDATED_AT, direction: DESC}, privacy: PUBLIC, isFork: false) {
+      user(login: "DustinSchouten") {
+        repositories(first: 100, orderBy: {field: UPDATED_AT, direction: DESC}, privacy: PUBLIC) {
           edges {
             node {
               name

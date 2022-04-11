@@ -1,6 +1,6 @@
 {
-  "name": "p2-github-hackaton-2122",
-  "version": "1.0.0",
+  "name": "myapp",
+  "version": "0.0.1",
   "description": "Four days of creative exploration using the GitHub GraphQL API as the outset.",
   "main": "app.js",
   "scripts": {
