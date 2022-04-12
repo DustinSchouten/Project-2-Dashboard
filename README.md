@@ -1,5 +1,5 @@
 # GITDashboard: Dustin & Aron
-[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/check-it-out.svg)](https://forthebadge.com)
 
 Welcome to this repository. Here you can find our app called **GITDashboard**. The concept is that the user can view information about the git workflow from students from the minor Web Design & Development. The information is shown in multiple graphs.
 
