@@ -2,4 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Open Sans';
+}
+
+text.value_labels {
+  fill:black;
+  font-size: 1em;
+}
+
+.tick text {
+  fill: black;
+  font-size: 1.25em;
 }

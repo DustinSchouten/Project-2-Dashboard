@@ -4,7 +4,7 @@
 
 <script>
     function generateBarChart(data) {
-        let margin = {top: 20, right: 20, bottom: 30, left: 80};
+        let margin = {top: 20, right: 20, bottom: 30, left: 130};
         let svgWidth = 720, svgHeight = 700;
         let height = svgHeight- margin.top- margin.bottom, width = svgWidth - margin.left - margin.right;
         let sourceNames = [], sourceCount = [];
@@ -20,22 +20,20 @@
             x.domain([0, d3.max(sourceCount, function(d) { return d; })]);
             y.domain(sourceNames);
 
-            let svg = d3.select("#account_group").append("svg");
+            let svg = d3.select("#bar_chart").append("svg");
             svg.attr('height', svgHeight)
-            .attr('width', svgWidth+20);
+            .attr('width', svgWidth+35);
 
             svg = svg.append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
             svg.append("g")
                 .attr("transform", "translate(0, " + height + ")")
                 .call(d3.axisBottom(x))
-                ;
 
             svg.append("g")
                 .call(d3.axisLeft(y))
 
-                ;
                     
             // Create rectangles
             let bars = svg.selectAll('.bar')
@@ -56,26 +54,23 @@
                     return data[d];
                 })
                 .attr("x", function(d){
-                    return x(data[d]) + 10;
+                    return x(data[d]) + 5;
                 })
                 .attr("y", function(d){
-                    return y(d) + y.bandwidth()*0.6;
+                    return y(d)+25;
                 })
-                .attr("font-family" , "sans-serif")
-                .attr("font-size" , "14px")
-                .attr("fill" , "black")
-                .attr("text-anchor", "left");
+                .attr('class', 'value_labels')
             
- 
-        
     }
 
     const dataa = JSON.parse(document.querySelector('.data').textContent);
     const forked_nodes = dataa['repository']['forks']['nodes']
+    console.log(forked_nodes)
     var dataArray = {}
     for(var i=0; i<forked_nodes.length; i++) {
         const name = forked_nodes[i]['owner']['login'];
         const totalsize = forked_nodes[i]['languages']['totalSize'];
+        console.log(forked_nodes[i]['commitComments']['totalCount'])
         dataArray[name] = totalsize
         console.log('name: ',name,' totalsize: ', totalsize)
     }

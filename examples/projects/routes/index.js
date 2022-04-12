@@ -35,6 +35,9 @@ module.exports = express
                 size
               }
             }
+            commitComments {
+              totalCount
+            }
           }
         }
       }
