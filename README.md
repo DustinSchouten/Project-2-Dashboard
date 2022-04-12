@@ -8,7 +8,7 @@ Follow this link to check out the full app!
 
 ## Table of Contents
 -   [API](#api)
--   [D3.js](#d3.js)
+-   [D3.js](#d3-js)
 -   [Design](#design)
 -   [How to install](#how-to-install)
 -   [Authors](#authors)
