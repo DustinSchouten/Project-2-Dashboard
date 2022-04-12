@@ -5,6 +5,23 @@
   font-family: 'Open Sans';
 }
 
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.charts_section {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+}
+
+.chart {
+  background-color: #eee;
+  margin: 20px;
+  padding: 20px;
+}
+
 text.value_labels {
   fill:black;
   font-size: 1em;
@@ -13,4 +30,12 @@ text.value_labels {
 .tick text {
   fill: black;
   font-size: 1.25em;
+}
+
+#total_sizes_chart .bar {
+  fill: red;
+}
+
+#total_languages_count_chart .bar {
+  fill: yellowgreen;
 }

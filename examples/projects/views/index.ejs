@@ -1,11 +1,35 @@
 <%- include('./partials/head') %>
-
 <p style='display:none' class="data"><%= JSON.stringify(data) %></p>
+<h1>Minor Web: Project-2 Dashboard</h1>
+<section class="charts_section">
+    <section class="chart">
+        <h2>Total sizes:</h2>
+        <div id="total_sizes_chart"></div>
+    </section>
+    <section class="chart">
+        <h2>Total languages:</h2>
+        <div id="total_languages_count_chart"></div>
+    </section>
+</section>
 
 <script>
-    function generateBarChart(data) {
+    function sortArrayByValue(dataArray) {
+        var array = Object.keys(dataArray).map(function(value) {
+            return [value, dataArray[value]];
+        });
+        array.sort(function(first, second) {
+            return second[1] - first[1];
+        });
+        dataArraySorted = {}
+        array.forEach((value,idx) => {
+            dataArraySorted[value[0]] = value[1]
+        })
+        return dataArraySorted
+    }
+
+    function generateBarChart(data,chart_name) {
         let margin = {top: 20, right: 20, bottom: 30, left: 130};
-        let svgWidth = 720, svgHeight = 700;
+        let svgWidth = 620, svgHeight = 400;
         let height = svgHeight- margin.top- margin.bottom, width = svgWidth - margin.left - margin.right;
         let sourceNames = [], sourceCount = [];
 
@@ -20,7 +44,7 @@
             x.domain([0, d3.max(sourceCount, function(d) { return d; })]);
             y.domain(sourceNames);
 
-            let svg = d3.select("#bar_chart").append("svg");
+            let svg = d3.select("#"+chart_name).append("svg");
             svg.attr('height', svgHeight)
             .attr('width', svgWidth+35);
 
@@ -47,7 +71,6 @@
                 .attr("y", function(d) { return y(d); })
                 .attr("width", function(d){return x(data[d])})
                 .attr("height", function(d) { return y.bandwidth(); })
-                .attr("fill" , "#abcdef");
 
             bars.append("text")
                 .text(function(d) { 
@@ -57,25 +80,26 @@
                     return x(data[d]) + 5;
                 })
                 .attr("y", function(d){
-                    return y(d)+25;
+                    return y(d)+svgHeight/25;
                 })
                 .attr('class', 'value_labels')
-            
     }
 
-    const dataa = JSON.parse(document.querySelector('.data').textContent);
-    const forked_nodes = dataa['repository']['forks']['nodes']
+    const data = JSON.parse(document.querySelector('.data').textContent);
+    const forked_nodes = data['repository']['forks']['nodes']
     console.log(forked_nodes)
-    var dataArray = {}
+    var dataArrayTotalSizes = {}
+    var dataArrayTotalLanguagesCount = {}
     for(var i=0; i<forked_nodes.length; i++) {
         const name = forked_nodes[i]['owner']['login'];
         const totalsize = forked_nodes[i]['languages']['totalSize'];
-        console.log(forked_nodes[i]['commitComments']['totalCount'])
-        dataArray[name] = totalsize
-        console.log('name: ',name,' totalsize: ', totalsize)
+        const totalDifferentLanguages = forked_nodes[i]['languages']['totalCount'];
+        dataArrayTotalSizes[name] = totalsize;
+        dataArrayTotalLanguagesCount[name] = totalDifferentLanguages
     }
-
-    generateBarChart(dataArray)
     
+    generateBarChart(sortArrayByValue(dataArrayTotalSizes),'total_sizes_chart')
+    generateBarChart(sortArrayByValue(dataArrayTotalLanguagesCount),'total_languages_count_chart')
+
 </script>
 <%- include('./partials/foot') %>
