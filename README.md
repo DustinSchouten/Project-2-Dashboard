@@ -49,6 +49,7 @@ You can create an issue in this repository to let us know what's wrong.
 
 ## Authors
 [Dustin Schouten](https://github.com/DustinSchouten)
+
 [Aron Pelgrim](https://github.com/AronPelgrim)
 
 ## License
