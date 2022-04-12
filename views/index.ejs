@@ -1,0 +1,192 @@
+<%- include('./partials/head') %>
+<p style='display:none' class="data"><%= JSON.stringify(data) %></p>
+<h1>Minor Web: Project 2 Dashboard</h1>
+<section class="charts_section">
+    <section class="chart">
+        <h2>Total sizes per repo:</h2>
+        <div id="total_sizes_chart"></div>
+    </section>
+    <section class="chart">
+        <h2>Total languages amount per repo:</h2>
+        <div id="total_languages_count_chart"></div>
+    </section>
+    <section class="chart">
+        <h2>Total language sizes:</h2>
+        <div id="total_languages_sizes_chart"></div>
+    </section>
+</section>
+
+<script>
+    function sortArrayByValue(dataArray) {
+        var array = Object.keys(dataArray).map(function(value) {
+            return [value, dataArray[value]];
+        });
+        array.sort(function(first, second) {
+            return second[1] - first[1];
+        });
+        dataArraySorted = {}
+        array.forEach((value,idx) => {
+            dataArraySorted[value[0]] = value[1]
+        })
+        return dataArraySorted
+    }
+
+
+
+
+
+    function generatePieChart(data,chart_name) {
+        var width = 450
+            height = 450
+            margin = 40
+
+        // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+        var radius = Math.min(width, height) / 2 - margin
+
+        // append the svg object to the div called 'my_dataviz'
+        var svg = d3.select("#"+chart_name)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        
+        var colors = ['red','#afa','yellow','#aaf','orange'];
+        // Compute the position of each group on the pie:
+        var pie = d3.pie()
+        .value(function(d) {return d.value; })
+        var data_ready = pie(d3.entries(data))
+        // Now I know that group A goes from 0 degrees to x degrees and so on.
+
+        // shape helper to build arcs:
+        var arcGenerator = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius)
+
+        // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+        svg
+        .selectAll('mySlices')
+        .data(data_ready)
+        .enter()
+        .append('path')
+        .attr('d', arcGenerator)
+        .attr('fill', function(d){return(colors[d.index])})
+        .attr("stroke", "white")
+        .style("stroke-width", "1px")
+        .style("opacity", 1)
+
+        // Now add the annotation. Use the centroid method to get the best coordinates
+        svg
+        .selectAll('mySlices')
+        .data(data_ready)
+        .enter()
+        .append('text')
+        .transition()
+        .duration(750)
+        .text(function(d){ return d.data.key})
+        .attr("transform", function(d) {return "translate(" + arcGenerator.centroid(d)[0]*1.25 + ',' + arcGenerator.centroid(d)[1]*1.25 + ")";  })
+        .style("text-anchor", "middle")
+    }
+
+
+
+
+
+
+
+
+    function generateBarChart(data,chart_name) {
+        let margin = {top: 20, right: 20, bottom: 30, left: 130};
+        let svgWidth = 620, svgHeight = 400;
+        let height = svgHeight- margin.top- margin.bottom, width = svgWidth - margin.left - margin.right;
+        let sourceNames = [], sourceCount = [];
+
+        let x = d3.scaleLinear().rangeRound([0, width]),
+            y = d3.scaleBand().rangeRound([0, height]).padding(0.1);
+            for(let key in data){
+                if(data.hasOwnProperty(key)){
+                    sourceNames.push(key);
+                    sourceCount.push(parseInt(data[key]));
+                }
+            }
+            x.domain([0, d3.max(sourceCount, function(d) { return d; })]);
+            y.domain(sourceNames);
+
+            let svg = d3.select("#"+chart_name).append("svg");
+            svg.attr('height', svgHeight)
+            .attr('width', svgWidth+35);
+            svg = svg.append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+            svg.append("g")
+                .attr("transform", "translate(0, " + height + ")")
+                .call(d3.axisBottom(x))
+
+            svg.append("g")
+                .call(d3.axisLeft(y))
+
+            // Create rectangles
+            let bars = svg.selectAll('.bar')
+                .data(sourceNames)
+                .enter()
+                .append("g")
+
+            bars.append('rect')
+                .attr('class', 'bar')
+                .attr("y", function(d) { return y(d); })
+                .attr("height", function(d) { return y.bandwidth(); })
+                .transition()
+                .duration(750)
+                .attr("x", function(d) { return 1; })
+                .attr("width", function(d){return x(data[d])})
+
+            bars.append("text")
+                .attr("y", function(d){
+                    return y(d)+svgHeight/25;
+                })
+                .transition()
+                .duration(750)
+                .text(function(d) { 
+                    return data[d];
+                })
+                .attr("x", function(d){
+                    return x(data[d]) + 5;
+                })
+                .attr('class', 'value_labels')
+
+
+    }
+
+    const data = JSON.parse(document.querySelector('.data').textContent);
+    const forked_nodes = data['repository']['forks']['nodes']
+    console.log(forked_nodes)
+
+    var dataArrayTotalSizes = {}
+    var dataArrayTotalLanguagesCount = {}
+    var dataArrayTotalLanguagesSizes = {};
+
+    for(var forked_repo_idx=0; forked_repo_idx<forked_nodes.length; forked_repo_idx++) {
+        const name = forked_nodes[forked_repo_idx]['owner']['login'];
+        const totalsize = forked_nodes[forked_repo_idx]['languages']['totalSize'];
+        const totalDifferentLanguages = forked_nodes[forked_repo_idx]['languages']['totalCount'];
+        const languagesList = forked_nodes[forked_repo_idx]['languages']['edges']
+        
+        for (var lang_idx=0; lang_idx<languagesList.length; lang_idx++) {
+            var language_name = languagesList[lang_idx]['node']['name']
+            var language_size = languagesList[lang_idx]['size']
+            if (dataArrayTotalLanguagesSizes[language_name] == undefined) {
+                dataArrayTotalLanguagesSizes[language_name] = 0
+            }
+            dataArrayTotalLanguagesSizes[language_name] += language_size
+        }
+        dataArrayTotalSizes[name] = totalsize;
+        dataArrayTotalLanguagesCount[name] = totalDifferentLanguages
+    }
+    
+    generateBarChart(sortArrayByValue(dataArrayTotalSizes),'total_sizes_chart')
+    generateBarChart(sortArrayByValue(dataArrayTotalLanguagesCount),'total_languages_count_chart')
+    generatePieChart(sortArrayByValue(dataArrayTotalLanguagesSizes),'total_languages_sizes_chart')
+
+</script>
+<%- include('./partials/foot') %>

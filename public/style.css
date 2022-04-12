@@ -13,6 +13,7 @@ h1 {
 .charts_section {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin: 20px;
 }
 
