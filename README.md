@@ -8,7 +8,7 @@ Follow this link to check out the full app!
 
 ## Table of Contents
 -   [API](#api)
--   [D3.js](#d3-js)
+-   [D3 js](#d3-js)
 -   [Design](#design)
 -   [How to install](#how-to-install)
 -   [Authors](#authors)
@@ -18,7 +18,7 @@ Follow this link to check out the full app!
 ## API
 We have to be able to retrieve the data from GitHub. It's possible to do this via the GitHub GraphQL API. GitHub chose GraphQL because it offers significantly more flexibility for their integrators. The ability to define precisely the data you want—and only the data you want—is a powerful advantage over traditional REST API endpoints. GraphQL lets you replace multiple REST requests with a single call to fetch the data you specify.
 
-## D3.js
+## D3 js
 D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML, SVG, and CSS. We are using this to turn the dry GitHub data into multiple kinds of graphs.
 
 ## Design
