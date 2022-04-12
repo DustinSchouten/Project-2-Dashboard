@@ -10,6 +10,7 @@ Follow this link to check out the full app!
 -   [API](#api)
 -   [D3 js](#d3-js)
 -   [Design](#design)
+-   [A preview](#a-preview)
 -   [How to install](#how-to-install)
 -   [Authors](#authors)
 -   [Any issues?](#any-issues)
@@ -22,6 +23,8 @@ We have to be able to retrieve the data from GitHub. It's possible to do this vi
 D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML, SVG, and CSS. We are using this to turn the dry GitHub data into multiple kinds of graphs.
 
 ## Design
+
+## A preview
 
 ## How to install
 ### Clone this repo
