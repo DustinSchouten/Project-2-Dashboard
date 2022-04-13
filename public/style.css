@@ -78,6 +78,9 @@ h3 {
 .chart:nth-of-type(8) {
   animation: appear .7s 2.4s both;
 }
+.chart:nth-of-type(9) {
+  animation: appear .7s 2.7s both;
+}
 text.value_labels {
   fill:black;
   font-size: 1em;
