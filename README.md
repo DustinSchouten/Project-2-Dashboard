@@ -22,9 +22,12 @@ We have to be able to retrieve the data from GitHub. It's possible to do this vi
 ## D3 js
 D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML, SVG, and CSS. We are using this to turn the dry GitHub data into multiple kinds of graphs.
 
-## Design
+## Sketch
+<img width="600" alt="Schermafbeelding 2022-03-08 144013" src="https://user-images.githubusercontent.com/74137185/163171120-47594493-ad61-4956-bc28-8a1fe941ca58.jpg">
 
 ## A preview
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/74137185/163171511-32e42943-f7fb-4764-aa60-a1b2e381fde0.png">
+
 
 ## How to install
 ### Clone this repo
