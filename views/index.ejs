@@ -157,7 +157,6 @@
     }
 
     function generateTabletimeElapsed(dataArrayTimeElapsed) {
-        console.log(dataArrayTimeElapsed)
         let length = Object.keys(dataArrayTimeElapsed).length;
         let minutes_elapsed_since_last_update_chart = document.querySelector('#minutes_elapsed_since_last_update_chart');
         let html_to_insert = '<table><tr><th>Name</th><th>Days</th><th>Hours</th><th>Minutes</th></tr>';
@@ -173,7 +172,6 @@
 
     const data = JSON.parse(document.querySelector('.data').textContent);
     const forked_repos = data['repository']['forks']['nodes'];
-    console.log(forked_repos)
     const amount_of_forked_repos = data['repository']['forkCount'];
     let dataArrayTotalSizes = {};
     let dataArrayTotalLanguagesCount = {};
