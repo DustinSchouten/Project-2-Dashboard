@@ -14,6 +14,14 @@
         <h2>Total language sizes:</h2>
         <div id="total_languages_sizes_chart"></div>
     </section>
+    <section class="chart">
+        <h2>Total issues per repo:</h2>
+        <div id="total_issues_count_chart"></div>
+    </section>
+    <section class="chart">
+        <h2>Total pull requests per repo:</h2>
+        <div id="total_pull_requests_count_chart"></div>
+    </section>
 </section>
 
 <script>
@@ -140,37 +148,53 @@
     }
 
     const data = JSON.parse(document.querySelector('.data').textContent);
-    const forked_nodes = data['repository']['forks']['nodes']
-    console.log(forked_nodes)
+    const forked_repos = data['repository']['forks']['nodes'];
+    console.log(forked_repos)
+    const amount_of_forked_repos = data['repository']['forkCount'];
 
-    var dataArrayTotalSizes = {}
-    var dataArrayTotalLanguagesCount = {}
-    var dataArrayTotalLanguagesSizes = {};
+    let dataArrayTotalSizes = {};
+    let dataArrayTotalLanguagesCount = {};
+    let dataArrayTotalLanguagesSizes = {};
+    let dataArrayTotalIsssuesCount = {};
+    let dataArrayTotalPullRequestsCount = {};
+    let hasIssuesEnabledCounter = 0;
+    let amount_of_active_repos = 0;
+    
+    for (var forked_repo_idx=0; forked_repo_idx<forked_repos.length; forked_repo_idx++) {
+        const name = forked_repos[forked_repo_idx]['owner']['login'];
+        const totalSize = forked_repos[forked_repo_idx]['languages']['totalSize'];
+        const totalDifferentLanguages = forked_repos[forked_repo_idx]['languages']['totalCount'];
+        const languagesList = forked_repos[forked_repo_idx]['languages']['edges'];      
+        const hasIssuesEnabled = forked_repos[forked_repo_idx]['hasIssuesEnabled'];
+        const totalIssues = forked_repos[forked_repo_idx]['issues']['totalCount'];
+        const totalPullRequests = forked_repos[forked_repo_idx]['pullRequests']['totalCount'];
 
-    const amount_of_forked_repos = data['repository']['forkscount'];
-    console.log(amount_of_forked_repos)
-    for(var forked_repo_idx=0; forked_repo_idx<forked_nodes.length; forked_repo_idx++) {
-        const name = forked_nodes[forked_repo_idx]['owner']['login'];
-        const totalsize = forked_nodes[forked_repo_idx]['languages']['totalSize'];
-        const totalDifferentLanguages = forked_nodes[forked_repo_idx]['languages']['totalCount'];
-        const languagesList = forked_nodes[forked_repo_idx]['languages']['edges']
+        if (totalSize > 0) {
+            amount_of_active_repos += 1;
+        }
+        if (hasIssuesEnabled) {
+            hasIssuesEnabledCounter += 1;
+            dataArrayTotalIsssuesCount[name] = totalIssues;
+        }
         
         for (var lang_idx=0; lang_idx<languagesList.length; lang_idx++) {
             var language_name = languagesList[lang_idx]['node']['name']
             var language_size = languagesList[lang_idx]['size']
             if (dataArrayTotalLanguagesSizes[language_name] == undefined) {
-                dataArrayTotalLanguagesSizes[language_name] = 0
+                dataArrayTotalLanguagesSizes[language_name] = 0;
             }
-            dataArrayTotalLanguagesSizes[language_name] += language_size
+            dataArrayTotalLanguagesSizes[language_name] += language_size;
         }
-        dataArrayTotalSizes[name] = totalsize;
-        dataArrayTotalLanguagesCount[name] = totalDifferentLanguages
+        dataArrayTotalSizes[name] = totalSize;
+        dataArrayTotalLanguagesCount[name] = totalDifferentLanguages;
+        dataArrayTotalPullRequestsCount[name] = totalPullRequests;
     }
-    
+
     generateBarChart(sortArrayByValue(dataArrayTotalSizes),'total_sizes_chart')
     generateBarChart(sortArrayByValue(dataArrayTotalLanguagesCount),'total_languages_count_chart')
     generatePieChart(sortArrayByValue(dataArrayTotalLanguagesSizes),'total_languages_sizes_chart')
-
+    generateBarChart(sortArrayByValue(dataArrayTotalIsssuesCount),'total_issues_count_chart')
+    generateBarChart(sortArrayByValue(dataArrayTotalPullRequestsCount),'total_pull_requests_count_chart')
 
 </script>
 <%- include('./partials/foot') %>

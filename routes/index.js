@@ -35,9 +35,14 @@ module.exports = express
                 size
               }
             }
-            commitComments {
+            issues(first: 100) {
               totalCount
             }
+            pullRequests(first: 100) {
+              totalCount
+            }
+            pushedAt
+            hasIssuesEnabled
           }
         }
       }
