@@ -92,7 +92,7 @@
         .append('text')
         .transition()
         .duration(750)
-        .text(function(d){ return d.data.key + ' ' + d.data.value})
+        .text(function(d){ return d.data.key})
         .attr("transform", function(d) {return "translate(" + arcGenerator.centroid(d)[0]*1.25 + ',' + arcGenerator.centroid(d)[1]*1.25 + ")";  })
         .style("text-anchor", "middle")
     }
@@ -204,9 +204,13 @@
 
     }
 
-    document.querySelector('#total_repo').textContent = amount_of_forked_repos
-    document.querySelector('#total_issue').textContent = hasIssuesEnabledCounter
-    document.querySelector('#total_active').textContent = amount_of_active_repos
+    console.log(dataArrayUpdatedAt)
+
+    const xx = dataArrayUpdatedAt.sort((a, b) => b.updatedAt - a.updatedAt)
+    console.log(xx)
+    document.querySelector('#total_repo').textContent = amount_of_forked_repos;
+    document.querySelector('#total_issue').textContent = hasIssuesEnabledCounter;
+    document.querySelector('#total_active').textContent = amount_of_active_repos;
 
     generateBarChart(sortArrayByValue(dataArrayTotalSizes),'total_sizes_chart')
     generateBarChart(sortArrayByValue(dataArrayTotalLanguagesCount),'total_languages_count_chart')
