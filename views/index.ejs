@@ -3,6 +3,18 @@
 <h1>Minor Web: Project 2 Dashboard</h1>
 <section class="charts_section">
     <section class="chart">
+        <h2>Total forked repo's amount:</h2>
+        <h3 id="total_repo"></h3>
+    </section>
+    <section class="chart">
+        <h2>Total enabled issues amount:</h2>
+        <h3 id="total_issue"></h3>
+    </section>
+    <section class="chart">
+        <h2>Total amount active repo's:</h2>
+        <h3 id="total_active"></h3>
+    </section>
+    <section class="chart">
         <h2>Total characters per repo:</h2>
         <div id="total_sizes_chart"></div>
     </section>
@@ -151,7 +163,6 @@
     const forked_repos = data['repository']['forks']['nodes'];
     console.log(forked_repos)
     const amount_of_forked_repos = data['repository']['forkCount'];
-
     let dataArrayTotalSizes = {};
     let dataArrayTotalLanguagesCount = {};
     let dataArrayTotalLanguagesSizes = {};
@@ -190,6 +201,10 @@
         dataArrayTotalLanguagesCount[name] = totalDifferentLanguages;
         dataArrayTotalPullRequestsCount[name] = totalPullRequests;
     }
+
+    document.querySelector('#total_repo').textContent = amount_of_forked_repos
+    document.querySelector('#total_issue').textContent = hasIssuesEnabledCounter
+    document.querySelector('#total_active').textContent = amount_of_active_repos
 
     generateBarChart(sortArrayByValue(dataArrayTotalSizes),'total_sizes_chart')
     generateBarChart(sortArrayByValue(dataArrayTotalLanguagesCount),'total_languages_count_chart')

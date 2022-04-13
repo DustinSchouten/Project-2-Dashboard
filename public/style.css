@@ -15,7 +15,7 @@
 }
 
 body {
-  background-color: #F3F3F4;
+  background-color: #B3BFC5;
 }
 
 h1 {
@@ -30,12 +30,20 @@ h2 {
   text-align: center;
 }
 
+h3 {
+  text-transform: uppercase;
+  margin: .8em 0;
+  text-align: center;
+  font-size: 2.5em;
+  color: #50F8AD;
+}
+
 .charts_section {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   margin: 20px;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .chart {
@@ -43,6 +51,7 @@ h2 {
   margin: 15px;
   padding: 20px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  height: fit-content;
 }
 
 text.value_labels {
