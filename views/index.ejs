@@ -53,7 +53,7 @@
         .append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-        var colors = ['red','#afa','yellow','#aaf','orange'];
+        var colors = ['#EEEB80','#75CAC7','#B6D884','#7B8AC5','#F69C9B'];
         var pie = d3.pie()
         .value(function(d) {return d.value; })
         var data_ready = pie(d3.entries(data))

@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 ::-webkit-scrollbar {
 	width: .7em;
@@ -11,18 +11,23 @@
 	background: #EAEBE4;
 }
 ::-webkit-scrollbar-thumb {
-	background: black;
-}
-::-webkit-scrollbar-thumb:hover {
 	background: #333;
 }
+
 body {
-  background-color: #EAEBE4;
+  background-color: #F3F3F4;
 }
 
 h1 {
   text-align: center;
   margin: 2em;
+  text-transform: uppercase;
+}
+
+h2 {
+  text-transform: uppercase;
+  margin: .8em 0;
+  text-align: center;
 }
 
 .charts_section {
@@ -30,14 +35,13 @@ h1 {
   flex-direction: row;
   flex-wrap: wrap;
   margin: 20px;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .chart {
   background-color: #fff;
-  margin: 35px;
-  padding: 35px;
-  border-radius: 2em;
+  margin: 15px;
+  padding: 20px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
@@ -53,9 +57,17 @@ text.value_labels {
 }
 
 #total_sizes_chart .bar {
-  fill: #92C7B1;
+  fill: #8FCCA0;
 }
 
 #total_languages_count_chart .bar {
-  fill: #F2CC8E;
+  fill: #F9B48A;
+}
+
+#total_issues_count_chart {
+  fill: #6BBDE5;
+}
+
+#total_pull_requests_count_chart {
+  fill: #9977B4;
 }
