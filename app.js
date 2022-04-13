@@ -1,7 +1,6 @@
 require("dotenv").config()
 const express = require('express')
 const indexRoute = require('./routes/index')
-const projectsRoute = require('./routes/projects')
 
 module.exports = express()
   .set('view engine', 'ejs')
@@ -10,5 +9,4 @@ module.exports = express()
   .use(express.static('./public'))
 
   .use('/', indexRoute)
-  .use('/projects', projectsRoute)
 // .use(errorRoute)

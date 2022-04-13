@@ -3,7 +3,7 @@
 <h1>Minor Web: Project 2 Dashboard</h1>
 <section class="charts_section">
     <section class="chart">
-        <h2>Total sizes per repo:</h2>
+        <h2>Total characters per repo:</h2>
         <div id="total_sizes_chart"></div>
     </section>
     <section class="chart">
@@ -44,8 +44,6 @@
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-        var colors = ['red','#afa','yellow','#aaf','orange'];
 
         var colors = ['red','#afa','yellow','#aaf','orange'];
         var pie = d3.pie()
@@ -149,6 +147,8 @@
     var dataArrayTotalLanguagesCount = {}
     var dataArrayTotalLanguagesSizes = {};
 
+    const amount_of_forked_repos = data['repository']['forkscount'];
+    console.log(amount_of_forked_repos)
     for(var forked_repo_idx=0; forked_repo_idx<forked_nodes.length; forked_repo_idx++) {
         const name = forked_nodes[forked_repo_idx]['owner']['login'];
         const totalsize = forked_nodes[forked_repo_idx]['languages']['totalSize'];
@@ -170,6 +170,7 @@
     generateBarChart(sortArrayByValue(dataArrayTotalSizes),'total_sizes_chart')
     generateBarChart(sortArrayByValue(dataArrayTotalLanguagesCount),'total_languages_count_chart')
     generatePieChart(sortArrayByValue(dataArrayTotalLanguagesSizes),'total_languages_sizes_chart')
+
 
 </script>
 <%- include('./partials/foot') %>
