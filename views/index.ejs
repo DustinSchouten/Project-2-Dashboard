@@ -154,8 +154,6 @@
                     return x(data[d]) + 5;
                 })
                 .attr('class', 'value_labels')
-
-
     }
 
     function generateTabletimeElapsed(dataArrayTimeElapsed) {
@@ -163,9 +161,12 @@
         console.log(dataArrayTimeElapsed)
         let length = Object.keys(dataArrayTimeElapsed).length;
         let minutes_elapsed_since_last_update_chart = document.querySelector('#minutes_elapsed_since_last_update_chart');
-        let html_to_insert = '<table>';
+        let html_to_insert = '<table><tr><th>Name</th><th>Days</th><th>Hours</th><th>Minutes</th></tr>';
         for (let idx=0; idx<length; idx++) {
-            html_to_insert += '<tr><td>'+dataArrayTimeElapsed[idx]['name']+'</td><td>'+dataArrayTimeElapsed[idx]['updatedAt']+'</td></tr>'
+            html_to_insert += '<tr><td>'+dataArrayTimeElapsed[idx]['name']+'</td>'+
+                                  '<td>'+dataArrayTimeElapsed[idx]['days']+'</td>'+
+                                  '<td>'+dataArrayTimeElapsed[idx]['hours']+'</td>'+
+                                  '<td>'+dataArrayTimeElapsed[idx]['minutes']+'</td></tr>';
         }
         html_to_insert += '</table>'
         minutes_elapsed_since_last_update_chart.insertAdjacentHTML('beforeend', html_to_insert);
@@ -225,10 +226,16 @@
     dataArrayTimeElapsed = {}
     for (let timestamp_idx=0; timestamp_idx<dataArrayUpdatedAt.length; timestamp_idx++) {
         let name = dataArrayUpdatedAt[timestamp_idx]['name']
-        let timeElapsedSinceLastUpdateInMinutes = (new Date() - dataArrayUpdatedAt[timestamp_idx]['updatedAt'])/1000/60;
+        let timeElapsedSinceLastUpdateInMinutes = Math.round((new Date() - dataArrayUpdatedAt[timestamp_idx]['updatedAt'])/1000/60);
+        let timeElapsedSinceLastUpdateInHours = Math.floor(timeElapsedSinceLastUpdateInMinutes/60);
+        let timeElapsedSinceLastUpdateInDays = Math.floor(timeElapsedSinceLastUpdateInHours/24);
+
         dataArrayTimeElapsed[timestamp_idx] = {}
         dataArrayTimeElapsed[timestamp_idx]['name'] = name;
-        dataArrayTimeElapsed[timestamp_idx]['updatedAt'] = Math.round(timeElapsedSinceLastUpdateInMinutes);
+        dataArrayTimeElapsed[timestamp_idx]['minutes'] = timeElapsedSinceLastUpdateInMinutes%60;
+        dataArrayTimeElapsed[timestamp_idx]['hours'] = timeElapsedSinceLastUpdateInHours%24;
+        dataArrayTimeElapsed[timestamp_idx]['days'] = timeElapsedSinceLastUpdateInDays;
+
     }
     generateTabletimeElapsed(dataArrayTimeElapsed)
 
