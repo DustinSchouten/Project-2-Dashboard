@@ -34,6 +34,9 @@
         <h2>Total pull requests per repo:</h2>
         <div id="total_pull_requests_count_chart"></div>
     </section>
+    <section id="minutes_elapsed_since_last_update_chart" class="chart">
+        <h2>Minutes elapsed since last update:</h2>
+    </section>
 </section>
 
 <script>
@@ -155,6 +158,20 @@
 
     }
 
+    function generateTabletimeElapsed(dataArrayTimeElapsed) {
+
+        console.log(dataArrayTimeElapsed)
+        let length = Object.keys(dataArrayTimeElapsed).length;
+        let minutes_elapsed_since_last_update_chart = document.querySelector('#minutes_elapsed_since_last_update_chart');
+        let html_to_insert = '<table>';
+        for (let idx=0; idx<length; idx++) {
+            html_to_insert += '<tr><td>'+dataArrayTimeElapsed[idx]['name']+'</td><td>'+dataArrayTimeElapsed[idx]['updatedAt']+'</td></tr>'
+        }
+        html_to_insert += '</table>'
+        minutes_elapsed_since_last_update_chart.insertAdjacentHTML('beforeend', html_to_insert);
+
+    }
+
     const data = JSON.parse(document.querySelector('.data').textContent);
     const forked_repos = data['repository']['forks']['nodes'];
     console.log(forked_repos)
@@ -200,14 +217,21 @@
         dataArrayTotalPullRequestsCount[name] = totalPullRequests;
         dataArrayUpdatedAt[forked_repo_idx] = {}
         dataArrayUpdatedAt[forked_repo_idx]['name'] = name
-        dataArrayUpdatedAt[forked_repo_idx]['updatedAt'] = Date.parse(updatedAt);
+        dataArrayUpdatedAt[forked_repo_idx]['updatedAt'] = new Date(updatedAt);
 
     }
 
-    console.log(dataArrayUpdatedAt)
+    dataArrayUpdatedAt = dataArrayUpdatedAt.sort((a, b) => b.updatedAt - a.updatedAt)
+    dataArrayTimeElapsed = {}
+    for (let timestamp_idx=0; timestamp_idx<dataArrayUpdatedAt.length; timestamp_idx++) {
+        let name = dataArrayUpdatedAt[timestamp_idx]['name']
+        let timeElapsedSinceLastUpdateInMinutes = (new Date() - dataArrayUpdatedAt[timestamp_idx]['updatedAt'])/1000/60;
+        dataArrayTimeElapsed[timestamp_idx] = {}
+        dataArrayTimeElapsed[timestamp_idx]['name'] = name;
+        dataArrayTimeElapsed[timestamp_idx]['updatedAt'] = Math.round(timeElapsedSinceLastUpdateInMinutes);
+    }
+    generateTabletimeElapsed(dataArrayTimeElapsed)
 
-    const xx = dataArrayUpdatedAt.sort((a, b) => b.updatedAt - a.updatedAt)
-    console.log(xx)
     document.querySelector('#total_repo').textContent = amount_of_forked_repos;
     document.querySelector('#total_issue').textContent = hasIssuesEnabledCounter;
     document.querySelector('#total_active').textContent = amount_of_active_repos;
