@@ -6,7 +6,6 @@ const graphqlAuth = graphql.defaults({
 
 module.exports = express
   .Router()
-
   .get('/', function (req, res) {
     // Get the repository information from my GitHub account
     graphqlAuth(`{
