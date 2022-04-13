@@ -4,7 +4,7 @@
 Welcome to this repository. Here you can find our app called **GITDashboard**. The concept is that the user can view information about the git workflow from students from the minor Web Design & Development. The information is shown in multiple graphs.
 
 Follow this link to check out the full app!
-[GITDashboard app]()
+[GITDashboard app](https://git-dashboard-minor-web.herokuapp.com/)
 
 ## Table of Contents
 -   [API](#api)
