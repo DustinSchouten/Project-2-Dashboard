@@ -9,4 +9,3 @@ module.exports = express()
   .use(express.static('./public'))
 
   .use('/', indexRoute)
-// .use(errorRoute)

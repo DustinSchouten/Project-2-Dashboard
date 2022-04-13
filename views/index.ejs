@@ -109,10 +109,6 @@
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
             svg.append("g")
-                .attr("transform", "translate(0, " + height + ")")
-                .call(d3.axisBottom(x))
-
-            svg.append("g")
                 .call(d3.axisLeft(y))
 
             // Create rectangles
@@ -157,6 +153,7 @@
     let dataArrayTotalLanguagesSizes = {};
     let dataArrayTotalIsssuesCount = {};
     let dataArrayTotalPullRequestsCount = {};
+    let dataArrayUpdatedAt = [];
     let hasIssuesEnabledCounter = 0;
     let amount_of_active_repos = 0;
     
@@ -168,6 +165,8 @@
         const hasIssuesEnabled = forked_repos[forked_repo_idx]['hasIssuesEnabled'];
         const totalIssues = forked_repos[forked_repo_idx]['issues']['totalCount'];
         const totalPullRequests = forked_repos[forked_repo_idx]['pullRequests']['totalCount'];
+        const updatedAt = forked_repos[forked_repo_idx]['updatedAt'];
+
 
         if (totalSize > 0) {
             amount_of_active_repos += 1;
@@ -179,7 +178,6 @@
         
         for (let lang_idx=0; lang_idx<languagesList.length; lang_idx++) {
             let language_name = languagesList[lang_idx]['node']['name']
-            console.log(language_name)
             let language_size = languagesList[lang_idx]['size']
             if (dataArrayTotalLanguagesSizes[language_name] == undefined) {
                 dataArrayTotalLanguagesSizes[language_name] = 0;
@@ -189,6 +187,10 @@
         dataArrayTotalSizes[name] = totalSize;
         dataArrayTotalLanguagesCount[name] = totalDifferentLanguages;
         dataArrayTotalPullRequestsCount[name] = totalPullRequests;
+        dataArrayUpdatedAt[forked_repo_idx] = {}
+        dataArrayUpdatedAt[forked_repo_idx]['name'] = name
+        dataArrayUpdatedAt[forked_repo_idx]['updatedAt'] = Date.parse(updatedAt);
+
     }
 
     generateBarChart(sortArrayByValue(dataArrayTotalSizes),'total_sizes_chart')
