@@ -26,7 +26,7 @@
 
 <script>
     function sortArrayByValue(dataArray) {
-        var array = Object.keys(dataArray).map(function(value) {
+        let array = Object.keys(dataArray).map(function(value) {
             return [value, dataArray[value]];
         });
         array.sort(function(first, second) {
@@ -40,13 +40,13 @@
     }
 
     function generatePieChart(data,chart_name) {
-        var width = 450
+        let width = 450
             height = 450
             margin = 40
 
-        var radius = Math.min(width, height) / 2 - margin
+        let radius = Math.min(width, height) / 2 - margin
 
-        var svg = d3.select("#"+chart_name)
+        let svg = d3.select("#"+chart_name)
         .append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -56,9 +56,9 @@
         var colors = ['#EEEB80','#75CAC7','#B6D884','#7B8AC5','#F69C9B'];
         var pie = d3.pie()
         .value(function(d) {return d.value; })
-        var data_ready = pie(d3.entries(data))
+        let data_ready = pie(d3.entries(data))
 
-        var arcGenerator = d3.arc()
+        let arcGenerator = d3.arc()
         .innerRadius(0)
         .outerRadius(radius)
 
@@ -160,7 +160,7 @@
     let hasIssuesEnabledCounter = 0;
     let amount_of_active_repos = 0;
     
-    for (var forked_repo_idx=0; forked_repo_idx<forked_repos.length; forked_repo_idx++) {
+    for (let forked_repo_idx=0; forked_repo_idx<forked_repos.length; forked_repo_idx++) {
         const name = forked_repos[forked_repo_idx]['owner']['login'];
         const totalSize = forked_repos[forked_repo_idx]['languages']['totalSize'];
         const totalDifferentLanguages = forked_repos[forked_repo_idx]['languages']['totalCount'];
@@ -177,9 +177,10 @@
             dataArrayTotalIsssuesCount[name] = totalIssues;
         }
         
-        for (var lang_idx=0; lang_idx<languagesList.length; lang_idx++) {
-            var language_name = languagesList[lang_idx]['node']['name']
-            var language_size = languagesList[lang_idx]['size']
+        for (let lang_idx=0; lang_idx<languagesList.length; lang_idx++) {
+            let language_name = languagesList[lang_idx]['node']['name']
+            console.log(language_name)
+            let language_size = languagesList[lang_idx]['size']
             if (dataArrayTotalLanguagesSizes[language_name] == undefined) {
                 dataArrayTotalLanguagesSizes[language_name] = 0;
             }
@@ -196,5 +197,19 @@
     generateBarChart(sortArrayByValue(dataArrayTotalIsssuesCount),'total_issues_count_chart')
     generateBarChart(sortArrayByValue(dataArrayTotalPullRequestsCount),'total_pull_requests_count_chart')
 
+    const monthsList = {0:'January',1:'February',2:'March',3:'April',4:'May',5:'June',6:'July',7:'August',8:'September',9:'October',10:'November',11:'December'}
+    const weekdaysList = {0:'Sunday',1:'Monday',2:'Tuesday',3:'Wednesday',4:'Thursday',5:'Friday',6:'Saturday'}
+    const currentDateTime = new Date();
+    const currentYear = currentDateTime.getFullYear();
+    const currentMonthIdx = currentDateTime.getMonth();
+    const currentMonth = monthsList[currentMonthIdx];
+    const currentWeekDayIdx = currentDateTime.getDay();
+    const currentWeekDay = weekdaysList[currentWeekDayIdx];
+    const currentDay = currentDateTime.getDate();
+    const currentHour = currentDateTime.getHours();
+    const currentMinute = currentDateTime.getMinutes();
+    const currentSeconds = currentDateTime.getSeconds();
+    
 </script>
+
 <%- include('./partials/foot') %>
